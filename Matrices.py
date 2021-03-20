@@ -1,14 +1,17 @@
 class Matrix:
-    def __init__(self, N):
+    def __init__(self, N, create):
         self.N = self.order = self.dimensions = N
-        self.matrix = self.constructMatrix()
+        self.matrix = self.constructMatrix(create)
 
     def __str__(self):
         self.displayMatrix()
         return ''
     
-    def constructMatrix(self):
-        return [[int(i) for i in input().split()] for j in range(self.N)]
+    def constructMatrix(self, create):
+        if not create:
+            return [[int(i) for i in input().split()] for j in range(self.N)]
+        self.function = input("f = ")
+        return [[eval(self.function.replace("i",str(i)).replace("j",str(j))) for j in range(1,self.N+1)] for i in range(1,self.N+1)]
 
     def displayMatrix(self):
         for i in self.matrix:
@@ -54,12 +57,14 @@ class Matrix:
                 self.det+=(-1)**(i)*topElement*self.subMatrix.determinant()
             return self.det
 
-#Creating a class SubMatrix that has all methods of Matrix but the form of creation is different. This one unlike Matrix is not user defined.
+# Creating a class SubMatrix that has all methods of Matrix but the form of creation is different. 
+# This one unlike Matrix is not user defined.
 class SubMatrix(Matrix):
     def __init__(self, N):
         self.matrix = [[] for alpha in range(N)]
 
 if __name__ == "__main__":   
     N = int(input("Enter N for NxN matrix: "))
-    matrix = Matrix(N)
-    print(f"{matrix.determinant()} is the determinant of this matrix")
+    matrix = Matrix(N, True)
+    #print(f"{matrix.determinant()} is the determinant of this matrix")
+    print(matrix)
